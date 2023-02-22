@@ -1,28 +1,22 @@
+import { 
+    checkString, 
+    getInfo 
+} from "./functions";
+
 const prompt = require('prompt-sync')({sigint: true});
 
-
-export const main = () => {
+const main = () => {
     let exitOption = true;
     while (exitOption) {
-        const data = getInfo();
-        console.log(data);
-        let alphabet = 
-    
+        const inputData = getInfo();
+        const str = prompt('Cadena a verificar: ').toLowerCase();
+        const neededData = {
+            str: str,
+            id: inputData.id,
+            name: inputData.name,
+        };
+        console.log(checkString(neededData))
         exitOption = false;
-    } 
-};
-
-export const getInfo = () => {    
-    while (true) {
-        let fullName: string = prompt('Nombre: ').toLowerCase();
-        let id: string = prompt('Matricula: ');
-        if (/^\d+$/.test(id) && id.length === 7 && /^[a-z]+$/.test(fullName)) {
-            fullName.trim()
-            return {
-                name: fullName,
-                id: id,
-            };
-        }
     }
 };
 
