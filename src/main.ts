@@ -9,20 +9,25 @@ const main = () => {
     console.log('¡Bienvenido a la evidencia de aprenizade 1!');
     console.log('Introduzca sus datos para generar el lenguaje regular:');
     let inputData = getInfo();
-    while (true) {
+    let exitOption = true;
+    while (exitOption) {
         promptString(inputData);
-        let menu1Option = prompt('1) Introducir otra cadena\n2) Introducir nuevos datos\n3) Salir\nSeleccion: ')[0];
-        if (menu1Option === '3') {
-            console.log('¡Nos vemos!');
-            break;
+        while(true) {
+            console.log('1) Introducir otra cadena\n2) Introducir nuevos datos\n3) Salir\nSeleccion: ');
+            const option = prompt();
+            if (option[0] === '3') {
+                console.log('¡Nos vemos!');
+                exitOption = false;
+                break;
+            }
+            if (option[0] === '2') {
+                inputData = getInfo();
+                break;
+            }
+            if (option[0] === '1') {
+                break;
+            }
         }
-        if (menu1Option === '2') {
-            inputData = getInfo();
-            continue;
-        }
-        if (menu1Option === '1') {
-            continue;
-        }   
     }
 };
 main();
