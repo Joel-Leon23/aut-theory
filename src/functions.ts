@@ -32,7 +32,6 @@ export const promptString = (inputData: {name: string; id: string;}) => {
         id: inputData.id,
         name: inputData.name,
     };
-    // Se puede cambiar logica desde aqui para abajo, nada mas es necesario cambiar
     console.log(checkString(neededData));
 }
 
@@ -52,7 +51,6 @@ const checkString = (data: { str: string; id: string; name: string; }) => {
     const firstName = getFirstName(data.name)
     const initials = getLastNamesInitials(data.name);
     const inverseInitials = initials[1] + initials[0];
-
     const pattern = new RegExp(`^${data.id}(${initials})+${data.id}(${inverseInitials}${inverseInitials})+${firstName}${firstName}$`);
     if (pattern.test(data.str)) {
         return 'Cadena valida';
