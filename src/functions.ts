@@ -52,7 +52,17 @@ const checkString = (data: { str: string; id: string; name: string; }) => {
     const initials = getLastNamesInitials(data.name);
     const inverseInitials = initials[1] + initials[0];
     const pattern = new RegExp(`^${data.id}(${initials})+${data.id}(${inverseInitials}${inverseInitials})+${firstName}${firstName}$`);
-    if (pattern.test(data.str)) {
+    if (!pattern.test(data.str)) {
+        return 'Cadena no valida';
+    }
+    const initialsPattern = new RegExp(`(${initials}){1,}\\d`, "g");
+    const count = data.str.match(initialsPattern);
+    const inverseInitialsPattern = new RegExp(`(${inverseInitials}){1,}${firstName[0]}`, "g");
+    const inverseCount = data.str.match(inverseInitialsPattern);
+    if (!(count && inverseCount)) {
+        return 'Cadena no valida';
+    }
+    if ((count[0].length - 1) * 2 === inverseCount[0].length - 1) {
         return 'Cadena valida';
     }
     return 'Cadena no valida';
