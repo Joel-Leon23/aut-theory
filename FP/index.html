@@ -4,9 +4,31 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Final Project</title>
 </head>
 <body>
+  <header>PIA Teoría de Autómatas</header>
+  <main>
+    <div>
+      <input id="inputString" type="text" placeholder="Cadena"></input>
+      <button type="button" onclick="checkString()">Verificar</button>
+      <div id="result"></div>
+      
+    </div>
+  </main>
+  <script>
+    function isValidString(str) {
+      let n = str.split('bab').length - 1; // Count the number of 'bab' in the string
+      let aCount = str.slice(0, str.indexOf('bab')).length; // Count the number of 'a' before the first 'bab'
   
+      // Check if the string is composed of 'a^n' followed by '(bab)^n'
+      return aCount === n && str === 'a'.repeat(aCount) + 'bab'.repeat(n);
+    }
+    function checkString() {
+      var str = document.getElementById("inputString").value;
+      var isValid = isValidString(str);
+      document.getElementById("result").innerHTML = isValid ? "Cadena valida" : "Cadena invalida";
+    }
+  </script>
 </body>
 </html>
