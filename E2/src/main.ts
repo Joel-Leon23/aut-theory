@@ -6,8 +6,8 @@ import {
 const prompt = require('prompt-sync')({sigint: true});
 
 const main = () => {
-    console.log('¡Bienvenido a la evidencia de aprenizade 1!');
-    console.log('Introduzca sus datos para generar el lenguaje regular:');
+    console.log('¡Bienvenido a la evidencia de aprendizaje 2!');
+    console.log('Introduzca sus datos:');
     let inputData = getInfo();
     let exitOption = true;
     while (exitOption) {

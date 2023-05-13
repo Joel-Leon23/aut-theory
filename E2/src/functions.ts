@@ -35,41 +35,35 @@ export const promptString = (inputData: {name: string; id: string;}) => {
     console.log(checkString(neededData));
 }
 
-const findAlphabete = (str: string) => {
-    let alphabet = "";
-    for(let i = 0; i < str.length; i++){
-        if(alphabet.includes(str[i]) === false && str[i] !== ' '){
-            alphabet += str[i]
-        }
-    }
-    return alphabet;
-};
+function getLastNamesInitials (name: string): string {
+    const words = name.trim().split(' ')
+    const lastWord = words[words.length - 1];
+    const secondLastWord = words[words.length - 2];
+    return `${secondLastWord.charAt(0)}${lastWord.charAt(0)}`;
+}
 
-const getInitials = (name: string) => {
-    return name.split(' ').map((word) => word[0]).join('');
-};
+const getFirstName = (name: string) => {
+    const nameParts = name.trim().split(' ');
+    return nameParts[0];
+}
 
 const checkString = (data: { str: string; id: string; name: string; }) => {
-    const numericAlphabet = findAlphabete(data.id);
-    if (!numericAlphabet.includes(data.str[0])) {
-        return 'Cadena no valida';  
-    }
-    if (!data.str.endsWith('.' + data.id)) {
+    const firstName = getFirstName(data.name)
+    const initials = getLastNamesInitials(data.name);
+    const inverseInitials = initials[1] + initials[0];
+    const pattern = new RegExp(`^${data.id}(${initials})+${data.id}(${inverseInitials}${inverseInitials})+${firstName}${firstName}$`);
+    if (!pattern.test(data.str)) {
         return 'Cadena no valida';
     }
-    if (data.str.indexOf(getInitials(data.name)) === -1) {
+    const initialsPattern = new RegExp(`(${initials}){1,}\\d`, "g");
+    const count = data.str.match(initialsPattern);
+    const inverseInitialsPattern = new RegExp(`(${inverseInitials}){1,}${firstName[0]}`, "g");
+    const inverseCount = data.str.match(inverseInitialsPattern);
+    if (!(count && inverseCount)) {
         return 'Cadena no valida';
     }
-    let pastSymbol;
-    const alphanumericAlphabet = '.' + findAlphabete(data.name) + numericAlphabet;
-    for (let i = 1; i < data.str.length - 8; i++) {
-        if (!alphanumericAlphabet.includes(data.str[i])) {
-            return 'Cadena no valida';
-        }
-        pastSymbol = data.str[i-1];
-        if (pastSymbol === '.' && data.str[i] === '.') {
-            return 'Cadena no valida';
-        }
+    if ((count[0].length - 1) * 2 === inverseCount[0].length - 1) {
+        return 'Cadena valida';
     }
-    return 'Cadena valida';
+    return 'Cadena no valida';
 }
